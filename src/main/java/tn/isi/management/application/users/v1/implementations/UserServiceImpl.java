@@ -9,8 +9,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 import tn.isi.management.domain.entities.User;
+import tn.isi.management.domain.repositories.RefreshTokenRepository;
 import tn.isi.management.domain.repositories.UserRepository;
 import tn.isi.management.service.users.UserService;
 
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
+
     @Override
     public User addUser(User user) {
         return userRepository.createUser(user);
@@ -35,8 +40,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Integer id) {
-        userRepository.deleteById(id);
+        // Delete refresh tokens first to avoid FK constraint violation
+        refreshTokenRepository.deleteByUser_Id(id);
+        userRepository.deleteUserById(id);
     }
 
     @Override

@@ -20,6 +20,9 @@ public class CourseResource {
     private static final Logger logger = LoggerFactory.getLogger(CourseResource.class);
     
     public static final String CONTEXT_PATH = "/courses/v1";
+
+    @Autowired
+    private ItemsMapper itemsMapper;
     
     @Autowired
     private CourseService courseService;
@@ -28,7 +31,7 @@ public class CourseResource {
     public ResponseEntity<?> createCourse(@RequestBody CourseRequest courseRequest) {
         try {
             logger.info("Creating course with title: {}", courseRequest.getTitle());
-            Course courseToCreate = ItemsMapper.ToCourse(courseRequest);
+            Course courseToCreate = itemsMapper.toCourse(courseRequest);
             Course createdCourse = courseService.addCourse(courseToCreate);
             return ResponseEntity.status(201).body(createdCourse);
         } catch (IllegalArgumentException e) {

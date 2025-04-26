@@ -22,13 +22,16 @@ public class InstructorResource {
     @Autowired
     private InstructorService instructorService;
 
+    @Autowired
+    private ActorsMapper actorsMapper;
+
     public static final String CONTEXT_PATH = "/instructors/v1";
 
     @PostMapping("/manager/create")
     public ResponseEntity<?> createInstructor(@RequestBody CreateInstructorRequest createInstructorRequest) {
         try {
             logger.info("Creating instructor with email: {}", createInstructorRequest.getEmail());
-            Instructor instructorToCreate = ActorsMapper.toInstructor(createInstructorRequest);
+            Instructor instructorToCreate = actorsMapper.toInstructor(createInstructorRequest);
             Instructor createdInstructor = instructorService.addInstructor(instructorToCreate);
             
             if (createdInstructor == null) {
@@ -48,7 +51,7 @@ public class InstructorResource {
     @PostMapping("/manager/update")
     public ResponseEntity<?> updateInstructor(@RequestBody CreateInstructorRequest createInstructorRequest) {
         try {
-            Instructor instructorToUpdate = ActorsMapper.toInstructor(createInstructorRequest);
+            Instructor instructorToUpdate = actorsMapper.toInstructor(createInstructorRequest);
             Instructor updatedInstructor = instructorService.updateInstructor(instructorToUpdate);
             
             if (updatedInstructor == null) {

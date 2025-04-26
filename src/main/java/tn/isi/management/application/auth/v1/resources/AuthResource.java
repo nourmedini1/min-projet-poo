@@ -38,10 +38,13 @@ public class AuthResource {
     @Autowired
     private JwtService jwtService;
 
+    @Autowired
+    private AuthMapper authMapper;
+
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestBody SignInRequest signInRequest) {
         try {
-            User userToAuthenticate = AuthMapper.signInRequestToUser(signInRequest);
+            User userToAuthenticate = authMapper.signInRequestToUser(signInRequest);
             User authenticatedUser = authService.signIn(userToAuthenticate);
             return ResponseEntity.ok(createAuthResponse(authenticatedUser));
         } catch (BadCredentialsException e) {
@@ -54,7 +57,7 @@ public class AuthResource {
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(@RequestBody SignUpRequest signUpRequest) {
         try {
-            User userToRegister = AuthMapper.signUpRequestToUser(signUpRequest);
+            User userToRegister = authMapper.signUpRequestToUser(signUpRequest);
             User registeredUser = authService.signUp(userToRegister);
 
             return ResponseEntity.ok(createAuthResponse(registeredUser));

@@ -24,11 +24,14 @@ public class ProfileResource {
     @Autowired
     private ProfileService profileService;
 
+    @Autowired
+    private ItemsMapper itemsMapper;
+
     @PostMapping("/admin/create")
     public ResponseEntity<?> createProfile(@RequestBody ProfileRequest profileRequest) {
         try {
             logger.info("Creating profile with name: {}", profileRequest.getLabel());
-            Profile profileToCreate = ItemsMapper.toProfile(profileRequest);
+            Profile profileToCreate = itemsMapper.toProfile(profileRequest);
             Profile createdProfile = profileService.addProfile(profileToCreate);
             return ResponseEntity.status(201).body(createdProfile);
         } catch (IllegalArgumentException e) {

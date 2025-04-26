@@ -33,7 +33,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
         }
     }
 
-    default void deleteById(@NotNull Integer id) {
+    default void deleteUserById(@NotNull Integer id) {
         if (existsById(id)) {
             deleteById(id);
         } else {

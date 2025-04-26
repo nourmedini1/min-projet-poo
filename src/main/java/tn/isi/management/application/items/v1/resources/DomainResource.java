@@ -24,11 +24,14 @@ public class DomainResource {
     @Autowired
     private DomainService domainService;
 
+    @Autowired
+    private ItemsMapper itemsMapper;
+
     @PostMapping("/admin/create")
     public ResponseEntity<?> createDomain(@RequestBody DomainRequest domainRequest) {
         try {
             logger.info("Creating domain with name: {}", domainRequest.getLabel());
-            Domain domainToCreate = ItemsMapper.ToDomain(domainRequest);
+            Domain domainToCreate = itemsMapper.toDomain(domainRequest);
             Domain createdDomain = domainService.addDomain(domainToCreate);
             return ResponseEntity.status(201).body(createdDomain);
         } catch (IllegalArgumentException e) {

@@ -7,27 +7,23 @@ import tn.isi.management.domain.entities.*;
 import tn.isi.management.domain.repositories.DomainRepository;
 
 @Component
-public abstract class ItemsMapper {
-
-
-    private  static DomainRepository domainRepository;
+public class ItemsMapper {
 
     @Autowired
-    public ItemsMapper(DomainRepository domainRepository) {
-        ItemsMapper.domainRepository = domainRepository;
-    }
+    private  DomainRepository domainRepository;
 
-    public static Domain ToDomain(DomainRequest domainRequest) {
+
+
+    public Domain toDomain(DomainRequest domainRequest) {
         if (domainRequest == null) {
             return null;
         }
-
         Domain domain = new Domain();
         domain.setLabel(domainRequest.getLabel());
         return domain;
     }
 
-    public static Course ToCourse(CourseRequest courseRequest) {
+    public Course toCourse(CourseRequest courseRequest) {
         if (courseRequest == null) {
             return null;
         }
@@ -44,7 +40,7 @@ public abstract class ItemsMapper {
         return course;
     }
 
-    public static Profile toProfile(ProfileRequest request) {
+    public Profile toProfile(ProfileRequest request) {
         if (request == null) {
             return null;
         }
@@ -53,7 +49,7 @@ public abstract class ItemsMapper {
         return profile;
     }
 
-    public static Structure toStructure(StructureRequest request) {
+    public Structure toStructure(StructureRequest request) {
         if (request == null) {
             return null;
         }
@@ -62,7 +58,7 @@ public abstract class ItemsMapper {
         return structure;
     }
 
-    public static Role toRole(RoleRequest request) {
+    public Role toRole(RoleRequest request) {
         if (request == null) {
             return null;
         }
@@ -70,8 +66,4 @@ public abstract class ItemsMapper {
         role.setName(request.getName());
         return role;
     }
-
-
-
-
 }

@@ -37,7 +37,7 @@ public class UserResource {
         }
     }
 
-    @GetMapping("/admin/by-login{login}")
+    @GetMapping("/admin/by-login/{login}")
     public ResponseEntity<?> getUserByLogin(@PathVariable String login) {
         try {
             UserResponse userResponse = UserMapper.userToUserResponse(userService.getUserByLogin(login));

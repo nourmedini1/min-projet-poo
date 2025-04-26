@@ -24,11 +24,14 @@ public class StructureResource {
     @Autowired
     private StructureService structureService;
 
+    @Autowired
+    private ItemsMapper itemsMapper;
+
     @PostMapping("/admin/create")
     public ResponseEntity<?> createStructure(@RequestBody StructureRequest structureRequest) {
         try {
             logger.info("Creating structure with name: {}", structureRequest.getLabel());
-            Structure structureToCreate = ItemsMapper.toStructure(structureRequest);
+            Structure structureToCreate = itemsMapper.toStructure(structureRequest);
             Structure createdStructure = structureService.addStructure(structureToCreate);
             return ResponseEntity.status(201).body(createdStructure);
         } catch (IllegalArgumentException e) {

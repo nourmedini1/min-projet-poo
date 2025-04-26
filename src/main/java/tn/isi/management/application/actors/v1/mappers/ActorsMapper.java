@@ -13,26 +13,21 @@ import tn.isi.management.domain.repositories.EmployerRepository;
 import tn.isi.management.domain.repositories.ProfileRepository;
 import tn.isi.management.domain.repositories.StructureRepository;
 
-
-
 @Component
-public abstract class ActorsMapper {
-
-    private static StructureRepository structureRepository;
-    private static ProfileRepository profileRepository;
-    private static CourseRepository courseRepository;
-    private static EmployerRepository employerRepository;
+public class ActorsMapper {
 
     @Autowired
-    public ActorsMapper(StructureRepository structureRepository, ProfileRepository profileRepository,
-                        CourseRepository courseRepository, EmployerRepository employerRepository) {
-        ActorsMapper.structureRepository = structureRepository;
-        ActorsMapper.profileRepository = profileRepository;
-        ActorsMapper.courseRepository = courseRepository;
-        ActorsMapper.employerRepository = employerRepository;
-    }
+    private  StructureRepository structureRepository;
+    @Autowired
+    private  ProfileRepository profileRepository;
+    @Autowired
+    private  CourseRepository courseRepository;
+    @Autowired
+    private  EmployerRepository employerRepository;
 
-    public static tn.isi.management.domain.entities.Participant toParticipant(CreateParticipantRequest request) {
+    
+
+    public Participant toParticipant(CreateParticipantRequest request) {
         Participant participant = new Participant();
         participant.setFirstName(request.getFirstName());
         participant.setLastName(request.getLastName());
@@ -47,13 +42,13 @@ public abstract class ActorsMapper {
         return participant;
     }
 
-    public static tn.isi.management.domain.entities.Employer toEmployer(CreateEmployerRequest request) {
+    public Employer toEmployer(CreateEmployerRequest request) {
         Employer employer = new Employer();
         employer.setName(request.getName());
         return employer;
     }
 
-    public static Instructor toInstructor(CreateInstructorRequest request) {
+    public Instructor toInstructor(CreateInstructorRequest request) {
         Instructor instructor = new Instructor();
         instructor.setFirstName(request.getFirstName());
         instructor.setLastName(request.getLastName());
@@ -64,6 +59,4 @@ public abstract class ActorsMapper {
                 .orElseThrow(() -> new IllegalArgumentException("Employer not found")));
         return instructor;
     }
-
-
 }

@@ -23,6 +23,9 @@ public class RoleResource {
     
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private ItemsMapper itemsMapper;
     
     @GetMapping("/manager")
     public ResponseEntity<?> getAllRoles() {
@@ -80,7 +83,7 @@ public class RoleResource {
     public ResponseEntity<?> createRole(@RequestBody RoleRequest roleRequest) {
         try {
             logger.info("Creating role with name: {}", roleRequest.getName());
-            Role roleToCreate = ItemsMapper.toRole(roleRequest);
+            Role roleToCreate = itemsMapper.toRole(roleRequest);
             Role createdRole = roleService.addRole(roleToCreate);
             return ResponseEntity.status(201).body(createdRole);
         } catch (IllegalArgumentException e) {

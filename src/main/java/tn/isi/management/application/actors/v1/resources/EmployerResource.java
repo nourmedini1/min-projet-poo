@@ -18,12 +18,15 @@ public class EmployerResource {
     @Autowired
     private EmployerService employerService;
 
+    @Autowired
+    private ActorsMapper actorsMapper;
+
     public static final String CONTEXT_PATH = "/employers/v1";
 
     @PostMapping("/manager/create")
     public ResponseEntity<?> createEmployer(@RequestBody CreateEmployerRequest createEmployerRequest) {
         try {
-            Employer employerToCreate = ActorsMapper.toEmployer(createEmployerRequest);
+            Employer employerToCreate = actorsMapper.toEmployer(createEmployerRequest);
             Employer createdEmployer = employerService.addEmployer(employerToCreate);
             if (createdEmployer == null) {
                 HashMap<String, String> errorResponse = new HashMap<>();
@@ -39,7 +42,7 @@ public class EmployerResource {
     @PostMapping("/manager/update")
     public ResponseEntity<?> updateEmployer(@RequestBody CreateEmployerRequest createEmployerRequest) {
         try {
-            Employer employerToUpdate = ActorsMapper.toEmployer(createEmployerRequest);
+            Employer employerToUpdate = actorsMapper.toEmployer(createEmployerRequest);
             Employer updatedEmployer = employerService.updateEmployer(employerToUpdate);
             if (updatedEmployer == null) {
                 HashMap<String, String> errorResponse = new HashMap<>();

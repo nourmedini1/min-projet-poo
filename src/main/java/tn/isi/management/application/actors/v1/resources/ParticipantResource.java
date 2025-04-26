@@ -22,13 +22,16 @@ public class ParticipantResource {
     @Autowired
     private ParticipantService participantService;
 
+    @Autowired
+    private ActorsMapper actorsMapper;
+
     public static final String CONTEXT_PATH = "/participants/v1";
 
     @PostMapping("/manager/create")
     public ResponseEntity<?> createParticipant(@RequestBody CreateParticipantRequest createParticipantRequest) {
         try {
             logger.info("Creating participant with email: {}", createParticipantRequest.getEmail());
-            Participant participantToCreate = ActorsMapper.toParticipant(createParticipantRequest);
+            Participant participantToCreate = actorsMapper.toParticipant(createParticipantRequest);
             Participant createdParticipant = participantService.addParticipant(participantToCreate);
             
             if (createdParticipant == null) {
