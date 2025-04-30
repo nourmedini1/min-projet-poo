@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.isi.management.application.actors.v1.mappers.ActorsMapper;
 import tn.isi.management.application.actors.v1.models.CreateInstructorRequest;
+import tn.isi.management.application.actors.v1.models.UpdateInstructorRequest;
 import tn.isi.management.domain.entities.Instructor;
 import tn.isi.management.service.actors.InstructorService;
 
@@ -49,9 +50,9 @@ public class InstructorResource {
     }
 
     @PostMapping("/manager/update")
-    public ResponseEntity<?> updateInstructor(@RequestBody CreateInstructorRequest createInstructorRequest) {
+    public ResponseEntity<?> updateInstructor(@RequestBody UpdateInstructorRequest updateInstructorRequest) {
         try {
-            Instructor instructorToUpdate = actorsMapper.toInstructor(createInstructorRequest);
+            Instructor instructorToUpdate = actorsMapper.updateInstructorRequestToInstructor(updateInstructorRequest);
             Instructor updatedInstructor = instructorService.updateInstructor(instructorToUpdate);
             
             if (updatedInstructor == null) {

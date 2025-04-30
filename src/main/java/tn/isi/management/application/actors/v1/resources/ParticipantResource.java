@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.isi.management.application.actors.v1.mappers.ActorsMapper;
 import tn.isi.management.application.actors.v1.models.CreateParticipantRequest;
+import tn.isi.management.application.actors.v1.models.UpdateParticipantRequest;
 import tn.isi.management.domain.entities.Participant;
 import tn.isi.management.service.actors.ParticipantService;
 
@@ -45,6 +46,26 @@ public class ParticipantResource {
         } catch (Exception e) {
             logger.error("Error creating participant: {}", e.getMessage(), e);
             return ResponseEntity.status(500).body("Error creating participant: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/manager/update")
+    public ResponseEntity<?> updateParticipant(@RequestBody UpdateParticipantRequest updateParticipantRequest) {
+        try {
+            logger.info("Updating participant with ID: {}", updateParticipantRequest.getId());
+            Participant participant = actorsMapper.updateParticipantRequestToParticipant(updateParticipantRequest);
+            Participant updatedParticipant = participantService.updateParticipant(participant);
+
+            if (updatedParticipant == null) {
+                HashMap<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Participant update failed");
+                return ResponseEntity.status(400).body(errorResponse);
+            }
+
+            return ResponseEntity.ok(updatedParticipant);
+        } catch (Exception e) {
+            logger.error("Error updating participant: {}", e.getMessage(), e);
+            return ResponseEntity.status(500).body("Error updating participant: " + e.getMessage());
         }
     }
 

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.isi.management.application.actors.v1.mappers.ActorsMapper;
 import tn.isi.management.application.actors.v1.models.CreateEmployerRequest;
+import tn.isi.management.application.actors.v1.models.UpdateEmployerRequest;
 import tn.isi.management.domain.entities.Employer;
 import tn.isi.management.service.actors.EmployerService;
 
@@ -40,9 +41,9 @@ public class EmployerResource {
     }
 
     @PostMapping("/manager/update")
-    public ResponseEntity<?> updateEmployer(@RequestBody CreateEmployerRequest createEmployerRequest) {
+    public ResponseEntity<?> updateEmployer(@RequestBody UpdateEmployerRequest updateEmployerRequest) {
         try {
-            Employer employerToUpdate = actorsMapper.toEmployer(createEmployerRequest);
+            Employer employerToUpdate = actorsMapper.updateEmployerRequestToEmployer(updateEmployerRequest);
             Employer updatedEmployer = employerService.updateEmployer(employerToUpdate);
             if (updatedEmployer == null) {
                 HashMap<String, String> errorResponse = new HashMap<>();
